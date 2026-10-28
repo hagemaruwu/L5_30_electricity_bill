@@ -2,8 +2,6 @@
 
 Aditya Raj | SRN: PES2UG24CS033
 
-Questions generated with AI as permitted by the instructor; answers are based on this lab.
-
 ## 1. What is the purpose of Pylint, Bandit and Flake8, and what did they find in this program?
 
 I used Pylint to check code quality, Bandit to check security issues, and Flake8 to check formatting. Pylint flagged problems such as the mutable default argument, unused currency argument, missing docstrings and inconsistent names. Bandit found four security issues involving shell execution, XML parsing and a hardcoded password. Flake8 found four formatting errors involving spacing, blank lines and line length.
