@@ -20,7 +20,7 @@ Flake8 prints nothing when it succeeds. The final program produces four bills an
 
 - `electricity_bill.py`: cleaned program.
 - `issues.md`: issue table, original line numbers, fixes, results and limits.
-- `reflection.md`: clearly labelled reflection notes; the official questions were absent from the supplied handout.
+- `reflection.md`: four reflection questions and answers based on the lab.
 - `reports/before/`: original reports, demo console output and JSON.
 - `reports/after/`: final reports, demo output, JSON, and test results.
 - `requirements.txt`: exact installed package versions, including defusedxml.
