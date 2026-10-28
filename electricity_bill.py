@@ -1,6 +1,8 @@
 import json
-import os
-import xml.etree.ElementTree as ET
+from http.client import HTTPConnection
+from ipaddress import ip_address
+
+from defusedxml import ElementTree as ET
 
 SLABS = [(100, 3.5), (200, 5.0), (300, 6.5)]
 HIGH_RATE = 8.0
@@ -10,7 +12,6 @@ METER_XML = ("<meters>"
              "<meter id='M2' prev='5000' curr='5420'/>"
              "<meter id='M3' prev='800' curr='760'/>"
              "</meters>")
-CLERK_PASSWORD = "bill-desk-demo"
 bills = []
 
 
@@ -59,8 +60,17 @@ def saveBills(fileName="bills.json"):
 
 
 def syncMeter(meterIp):
-    # Helper kept for the lab: not called by the demo
-    os.system("curl http://" + meterIp + "/reading")
+    # Accept only an IP address; never pass meter input to a shell.
+    address = str(ip_address(meterIp))
+    connection = HTTPConnection(address, timeout=5)
+    try:
+        connection.request("GET", "/reading")
+        response = connection.getresponse()
+        if response.status != 200:
+            raise OSError(f"Meter returned HTTP {response.status}")
+        return response.read().decode("utf-8")
+    finally:
+        connection.close()
 
 
 def main():
