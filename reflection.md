@@ -1,19 +1,25 @@
-# Reflection notes
+# Reflection
 
-The repository README asks for answers to four reflection questions from the handout. However, the supplied three-page handout mentions reflection answers without listing any questions. The notes below describe the completed work; they are not presented as answers to missing official questions. Replace or organize them under the actual questions if the instructor supplies them.
+The handout mentions reflection questions but does not list them. These are my notes on the analysis and changes made in this lab.
 
-## What the tools found
+## Findings
 
-Pylint identified quality problems including the shared dictionary default, an unused argument, missing docstrings, inconsistent names, and an unspecified file encoding. Flake8 identified spacing, blank-line and line-length violations. Bandit found the most urgent issue: meter input was concatenated into an `os.system` command. It also flagged standard XML parsing and an unused hardcoded password.
+I used Pylint to check code quality, Bandit to check security issues, and Flake8 to check formatting. The initial Pylint score was 5.44/10. Bandit reported four issues, and Flake8 reported four formatting errors.
 
-## Why the security fixes came first
+The main security issue was in `syncMeter()`. It added the meter address directly to an `os.system()` command, so input containing shell commands could be executed. Bandit also flagged the XML parser and an unused hardcoded password.
 
-The shell-command issue had High severity and the XML parser call had Medium severity in the original Bandit report. Replacing shell execution with a direct HTTP client removed command interpretation, and validating the IP address rejects shell syntax before a connection is created. Using defusedxml protects the parser against XML entity attacks. The unused password was removed rather than moved elsewhere because the demo never used it.
+## Changes
 
-## How behavior was checked
+I addressed the High and Medium severity Bandit findings first. I replaced the shell command with `HTTPConnection` and used `ip_address()` to validate the meter address. I changed the XML parser to defusedxml and removed the unused password.
 
-The original console output and `bills.json` were saved before editing. Both match the final program exactly. M1 is billed 708.75, M2 2661.75, M3 78.75, and M4 288.75; the total remains 3738.0. Eleven regression tests cover slab boundaries, readings, extra fees, JSON saving, repeated runs, XML entity rejection, invalid meter input, and mocked HTTP success and failure cleanup.
+For Pylint, I changed the mutable default `extras={}` to `extras=None`, removed the unused currency argument, added docstrings, used snake_case names, and specified UTF-8 when saving the JSON file. I also corrected the blank lines, spacing and long lines reported by Flake8.
 
-## What static analysis cannot establish
+## Checking the results
 
-The final Pylint score is 10.00/10, and Bandit and Flake8 report no findings for the assigned script. Those results show that the tools' checks pass, not that the entire application is production-ready. For example, HTTP traffic is still unencrypted, reversed readings are still treated as zero consumption, and live meter communication was not tested. Runtime checks and tests are still needed alongside static analysis.
+I compared the output before and after the changes. The bill amounts stayed the same: M1 was 708.75, M2 was 2661.75, M3 was 78.75, and M4 was 288.75. The total was still 3738.0, and the saved JSON matched the original.
+
+The final Pylint score was 10.00/10. Bandit and Flake8 reported no issues in `electricity_bill.py`. All 11 tests passed, including checks for tariff slabs, extra fees, JSON output, invalid meter addresses and XML entities. The meter connection was mocked in the tests; I did not test it against a real meter.
+
+## Limitations
+
+Passing these tools does not prove that the program has no bugs. The meter helper still uses HTTP, so its traffic is not encrypted. Reversed readings are still treated as zero units, as in the original program. Static analysis needs to be used along with testing and a review of the program's requirements.

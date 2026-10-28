@@ -47,7 +47,7 @@ def energy_charge(units):
 
 
 def generate_bill(meter_id, units, tax_rate=0.05, extras=None):
-    """Create and store a bill without sharing a mutable default argument."""
+    """Calculate the bill with tax and extra fees, then store it."""
     extras = {} if extras is None else extras
     amount = energy_charge(units) + FIXED_CHARGE + sum(extras.values())
     bill = {"meter": meter_id, "units": units,
@@ -71,7 +71,7 @@ def save_bills(file_name="bills.json"):
 
 def sync_meter(meter_ip):
     """Fetch a reading from a validated IP address without using a shell."""
-    # Accept only an IP address; never pass meter input to a shell.
+    # Check the address before connecting to the meter.
     address = str(ip_address(meter_ip))
     connection = HTTPConnection(address, timeout=5)
     try:

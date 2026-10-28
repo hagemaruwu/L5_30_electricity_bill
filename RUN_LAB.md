@@ -1,6 +1,6 @@
-# Running the completed lab in VS Code
+# Lab setup and commands
 
-Open this repository folder in VS Code. `.vscode/settings.json` points Python to the local `.venv` interpreter. If VS Code asks for an interpreter, choose `.venv/bin/python`.
+I used a local `.venv` for this lab. The VS Code interpreter setting is `.venv/bin/python`.
 
 In the VS Code terminal:
 
@@ -16,7 +16,7 @@ git log --oneline -4
 
 Flake8 prints nothing when it succeeds. The final program produces four bills and writes `bills.json` in the current directory. Run it from the repository root.
 
-## Files to inspect
+## Project files
 
 - `electricity_bill.py`: cleaned program.
 - `issues.md`: issue table, original line numbers, fixes, results and limits.
@@ -34,7 +34,7 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-The virtual environment itself is local and is not committed. Keep the `reports/before/` evidence unchanged. To regenerate final reports:
+The virtual environment itself is local and is not committed. The original reports are in `reports/before/`. Commands for the final reports:
 
 ```sh
 python -m pylint electricity_bill.py > reports/after/pylint_report.txt
@@ -48,4 +48,4 @@ python -m flake8 electricity_bill.py > reports/after/flake8_report.txt
 2. Pylint: safe default, identifiers, docstrings, unused argument, UTF-8 encoding and demo import/repeat safeguards.
 3. Flake8: final formatting, refreshed reports, regression tests and documentation.
 
-The upstream class repository is unchanged. Work belongs to the personal fork `hagemaruwu/L5_30_electricity_bill` on `main`.
+My changes are on `main` in my fork, `hagemaruwu/L5_30_electricity_bill`. The class repository is unchanged.
