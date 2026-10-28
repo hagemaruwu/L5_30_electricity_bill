@@ -1,4 +1,4 @@
-"""Calculate slab-based electricity bills and save the demonstration results."""
+"""Calculate slab-based electricity bills and save demo results."""
 
 import json
 from http.client import HTTPConnection
@@ -23,8 +23,9 @@ def read_meters(xml_text):
     return [(m.get("id"), int(m.get("prev")), int(m.get("curr")))
             for m in root.findall("meter")]
 
+
 def calculate_units(previous, current):
-    """Return consumption, preserving the demo warning for reversed readings."""
+    """Return consumption and warn about reversed readings."""
     if current < previous:
         print("Warning: meter reading went backwards")
         return 0
@@ -49,7 +50,7 @@ def generate_bill(meter_id, units, tax_rate=0.05, extras=None):
     """Create and store a bill without sharing a mutable default argument."""
     extras = {} if extras is None else extras
     amount = energy_charge(units) + FIXED_CHARGE + sum(extras.values())
-    bill = {"meter" : meter_id, "units": units,
+    bill = {"meter": meter_id, "units": units,
             "amount": round(amount * (1 + tax_rate), 2)}
     BILLS.append(bill)
     return bill
@@ -91,11 +92,12 @@ def main():
         generate_bill(meter_id, units)
     generate_bill("M4", 50, extras={"late_fee": 25})
     for bill in BILLS:
-        print(bill["meter"], "used", bill["units"], "units, bill Rs.", bill["amount"])
+        print(bill["meter"], "used", bill["units"],
+              "units, bill Rs.", bill["amount"])
     highest = max(BILLS, key=lambda bill: bill["amount"])
     print("Highest bill:", highest["meter"])
     print("Average bill:", average_bill())
-    total=sum(bill["amount"] for bill in BILLS)
+    total = sum(bill["amount"] for bill in BILLS)
     print("Total billed:", round(total, 2))
     save_bills()
     print("Saved", len(BILLS), "bills to bills.json")

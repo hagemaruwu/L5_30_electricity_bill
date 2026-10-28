@@ -7,3 +7,6 @@ venv/
 .venv/
 env/
 
+
+# Generated demo output
+bills.json

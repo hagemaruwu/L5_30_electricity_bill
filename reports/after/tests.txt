@@ -1,0 +1,16 @@
+test_demo_is_repeatable (test_electricity_bill.BillingTests.test_demo_is_repeatable) ... ok
+test_empty_average (test_electricity_bill.BillingTests.test_empty_average) ... ok
+test_extra_fees_and_defaults (test_electricity_bill.BillingTests.test_extra_fees_and_defaults) ... ok
+test_json_round_trip (test_electricity_bill.BillingTests.test_json_round_trip) ... ok
+test_readings (test_electricity_bill.BillingTests.test_readings) ... ok
+test_reversed_readings (test_electricity_bill.BillingTests.test_reversed_readings) ... ok
+test_shell_input_rejected_before_connection (test_electricity_bill.BillingTests.test_shell_input_rejected_before_connection) ... ok
+test_slabs (test_electricity_bill.BillingTests.test_slabs) ... ok
+test_sync_error_closes_connection (test_electricity_bill.BillingTests.test_sync_error_closes_connection) ... ok
+test_sync_success_and_connection_cleanup (test_electricity_bill.BillingTests.test_sync_success_and_connection_cleanup) ... ok
+test_xml_entities_rejected (test_electricity_bill.BillingTests.test_xml_entities_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.003s
+
+OK
